@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import API from '../api/axios';
 import toast from 'react-hot-toast';
 import Bubble from '../components/Bubble';
+import FloatingLines from '../components/FloatingLines';
 
 const bubbleColors = [
   ['rgba(230,241,251,0.5)', 'rgba(24,95,165,0.3)'],
@@ -13,7 +14,7 @@ const bubbleColors = [
 const styles = {
   page: {
     minHeight: '100vh',
-    background: 'linear-gradient(135deg, #042C53 0%, #185FA5 45%, #5DCAA5 100%)',
+    background: '#0a0a0a',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -21,13 +22,13 @@ const styles = {
     overflow: 'hidden'
   },
   card: {
-    background: 'rgba(255,255,255,0.12)',
+    background: 'rgba(0,0,0,0.35)',
     backdropFilter: 'blur(18px)',
     WebkitBackdropFilter: 'blur(18px)',
     borderRadius: '20px',
     padding: '2rem 1.8rem',
     width: '340px',
-    border: '1px solid rgba(255,255,255,0.25)',
+    border: '1px solid rgba(255,255,255,0.28)',
     position: 'relative',
     zIndex: 2
   },
@@ -46,19 +47,20 @@ const styles = {
   label: {
     display: 'block',
     fontSize: '11px',
-    color: 'rgba(255,255,255,0.75)',
+    color: '#fff',
     marginBottom: '5px',
-    fontWeight: 500,
+    fontWeight: 700,
     letterSpacing: '0.6px',
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
+    textShadow: '0 1px 4px rgba(0, 0, 0, 0.73)'
   },
   input: {
     width: '100%',
     padding: '10px 14px',
-    border: '1px solid rgba(255,255,255,0.25)',
+    border: '1px solid rgba(0, 0, 0, 0.55)',
     borderRadius: '10px',
     fontSize: '14px',
-    background: 'rgba(255,255,255,0.12)',
+    background: 'rgba(35, 154, 170, 0.25)',
     color: '#fff',
     outline: 'none',
     fontFamily: 'DM Sans, sans-serif',
@@ -152,7 +154,16 @@ const ForgotPassword = () => {
 
   return (
     <div style={styles.page}>
-      <Bubble colors={bubbleColors} />
+      <FloatingLines
+    enabledWaves={['top', 'middle', 'bottom']}
+    lineCount={[8, 12, 16]}
+    lineDistance={[8, 6, 4]}
+    bendRadius={5.0}
+    bendStrength={-0.5}
+    interactive={true}
+    parallax={true}
+    linesGradient={['#06B6D4', '#0891B2', '#AFA9EC', '#534AB7']}
+  />
       <div style={styles.card}>
         <div style={styles.title}>Reset password</div>
         <div style={styles.subtitle}>

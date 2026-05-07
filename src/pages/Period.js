@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import API from '../api/axios';
 import toast from 'react-hot-toast';
 import Bubble from '../components/Bubble';
+import ThreadBackground from '../components/ThreadBackground';
 
 const bubbleColors = [
   ['rgba(251,234,240,0.35)', 'rgba(212,83,126,0.3)'],
@@ -102,9 +103,11 @@ const Period = () => {
   };
 
   return (
-    <div style={styles.page}>
-      <Bubble colors={bubbleColors} />
-      <div style={{ position: 'relative', zIndex: 2 }}>
+    <ThreadBackground
+  gradient="linear-gradient(135deg, #4B1528 0%, #D4537E 50%, #AFA9EC 100%)"
+  lineColors={['#5DCAA5', '#534AB7', '#AFA9EC', '#06B6D4']}
+>
+  <div style={{ padding: '16px' }}>
 
         <div style={styles.topBar}>
           <button onClick={() => navigate('/dashboard')} style={{
@@ -211,7 +214,7 @@ const Period = () => {
         </div>
 
       </div>
-    </div>
+    </ThreadBackground>
   );
 };
 

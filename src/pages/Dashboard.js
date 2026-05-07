@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import API from '../api/axios';
-import Bubble from '../components/Bubble';
-
-const bubbleColors = [
-  ['rgba(238,237,254,0.35)', 'rgba(83,74,183,0.3)'],
-  ['rgba(251,234,240,0.3)', 'rgba(212,83,126,0.25)'],
-  ['rgba(225,245,238,0.3)', 'rgba(29,158,117,0.2)'],
-  ['rgba(255,255,255,0.15)', 'rgba(255,255,255,0.1)']
-];
+import SplashCursor from '../components/SplashCursor';
+import GooeyNav from '../components/GooeyNav';
+import LiquidEther from '../components/LiquidEther';
 
 const glitterColors = ['#D4537E','#AFA9EC','#5DCAA5','rgba(255,255,255,0.9)','#ED93B1','#7F77DD'];
 
@@ -32,10 +27,6 @@ const Glitter = () => {
           0%,100% { opacity: 0; transform: scale(0.4) rotate(0deg); }
           50% { opacity: 1; transform: scale(1.1) rotate(60deg); }
         }
-        @keyframes floatUp {
-          0% { transform: translateY(0) scale(1); opacity: 0.22; }
-          100% { transform: translateY(-560px) scale(1.1); opacity: 0; }
-        }
       `}</style>
       {glitters.map(g => (
         <div key={g.id} style={{
@@ -52,18 +43,6 @@ const Glitter = () => {
     </div>
   );
 };
-
-const navItems = [
-  { label: 'Home', path: '/dashboard', icon: '⌂' },
-  { label: 'Expenses', path: '/expenses', icon: '₹' },
-  { label: 'Medicine', path: '/medicine', icon: '+' },
-  { label: 'Period', path: '/period', icon: 'P' },
-  { label: 'Fitness', path: '/fitness', icon: 'F' },
-  { label: 'Mood', path: '/mood', icon: 'M' },
-  { label: 'Habits', path: '/habits', icon: 'H' },
-  { label: 'Journal', path: '/journal', icon: 'J' },
-  { label: 'Profile', path: '/profile', icon: 'U' },
-];
 const Dashboard = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -113,21 +92,64 @@ const Dashboard = () => {
       return date.getTime() === today.getTime();
     });
   });
+
+  const navItems = [
+    { label: 'Expenses', href: '/expenses' },
+    { label: 'Medicine', href: '/medicine' },
+    { label: 'Period', href: '/period' },
+    { label: 'Fitness', href: '/fitness' },
+    { label: 'Mood', href: '/mood' },
+    { label: 'Habits', href: '/habits' },
+    { label: 'Journal', href: '/journal' },
+    { label: 'Profile', href: '/profile' },
+  ];
+
+  const bentoItems = [
+    { color: '#1a0a2e', title: 'Expenses', description: `Rs.${Math.abs(summary.expenses?.total || 0)} this week`, label: 'Finance', path: '/expenses' },
+    { color: '#0a1a2e', title: 'Medicine', description: nextMedicine ? `Next: ${nextMedicine.name}` : 'No reminders set', label: 'Health', path: '/medicine' },
+    { color: '#1a0a1a', title: 'Period', description: 'Track your cycle', label: 'Wellness', path: '/period' },
+    { color: '#0a2e1a', title: 'Fitness', description: 'Log your workout', label: 'Activity', path: '/fitness' },
+    { color: '#2e1a0a', title: 'Mood', description: todayMood ? `Feeling ${todayMood.mood}` : 'Log today\'s mood', label: 'Mental', path: '/mood' },
+    { color: '#1a2e0a', title: 'Habits', description: `${completedHabits.length}/${summary.habits.length} done today`, label: 'Daily', path: '/habits' },
+    { color: '#0a0a2e', title: 'Journal', description: 'Write your thoughts', label: 'Personal', path: '/journal' },
+    { color: '#2e0a1a', title: 'Profile', description: `Hi, ${user?.name}`, label: 'Account', path: '/profile' },
+  ];
   return (
     <div style={{
       minHeight: '100vh',
-      background: 'linear-gradient(135deg, #26215C 0%, #534AB7 38%, #993556 70%, #1D9E75 100%)',
+      background: '#0a0a0f',
       position: 'relative',
       overflow: 'hidden',
       fontFamily: 'DM Sans, sans-serif'
     }}>
       <style>{`
-        .nav-item:hover { background: rgba(255,255,255,0.25) !important; }
-        .feature-card:hover { transform: translateY(-2px); background: rgba(255,255,255,0.18) !important; }
-        .feature-card { transition: all 0.2s; }
+        .dash-card:hover { transform: translateY(-2px); }
+        .dash-card { transition: all 0.2s; }
       `}</style>
 
-      <Bubble colors={bubbleColors} />
+      <SplashCursor
+  SIM_RESOLUTION={64}
+  DYE_RESOLUTION={512}
+  DENSITY_DISSIPATION={4}
+  VELOCITY_DISSIPATION={3}
+  SPLAT_RADIUS={0.15}
+  SPLAT_FORCE={4000}
+  RAINBOW_MODE={true}
+  TRANSPARENT={true}
+/>
+
+      <div style={{
+        position: 'absolute', inset: 0, zIndex: 0, opacity: 0.6
+      }}>
+        <LiquidEther
+          colors={['#534AB7', '#D4537E', '#5DCAA5', '#AFA9EC']}
+          mouseForce={15}
+          resolution={0.3}
+          autoDemo={true}
+          autoSpeed={0.3}
+        />
+      </div>
+
       <Glitter />
 
       <div style={{ position: 'relative', zIndex: 2, padding: '16px' }}>
@@ -135,28 +157,35 @@ const Dashboard = () => {
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           padding: '12px 16px',
-          background: 'rgba(255,255,255,0.13)',
+          background: 'rgba(255,255,255,0.08)',
           borderRadius: '14px', marginBottom: '14px',
-          border: '1px solid rgba(255,255,255,0.2)',
+          border: '1px solid rgba(255,255,255,0.12)',
           backdropFilter: 'blur(10px)'
         }}>
           <div>
-            <div style={{ fontFamily: 'Playfair Display, serif', fontSize: '18px', color: '#fff', fontWeight: 500 }}>
+            <div style={{
+              fontFamily: 'Playfair Display, serif',
+              fontSize: '18px', color: '#fff', fontWeight: 500
+            }}>
               Hey, {user?.name} ✨
             </div>
-            <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.6)', marginTop: '2px' }}>{today}</div>
+            <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', marginTop: '2px' }}>
+              {today}
+            </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <button onClick={handleLogout} style={{
-              background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.25)',
-              color: '#fff', borderRadius: '20px', padding: '5px 12px',
-              fontSize: '12px', cursor: 'pointer'
+              background: 'rgba(255,255,255,0.1)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              color: '#fff', borderRadius: '20px',
+              padding: '5px 12px', fontSize: '12px', cursor: 'pointer'
             }}>Logout</button>
             <div style={{
               width: '36px', height: '36px', borderRadius: '50%',
-              background: 'rgba(212,83,126,0.55)',
-              border: '1.5px solid rgba(255,255,255,0.4)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: 'linear-gradient(135deg, #D4537E, #7F77DD)',
+              border: '1.5px solid rgba(255,255,255,0.3)',
+              display: 'flex', alignItems: 'center',
+              justifyContent: 'center',
               fontSize: '13px', fontWeight: 500, color: '#fff'
             }}>
               {user?.name?.charAt(0).toUpperCase()}
@@ -164,38 +193,19 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div style={{
-          display: 'flex', gap: '6px', marginBottom: '16px',
-          overflowX: 'auto', paddingBottom: '4px'
-        }}>
-          {navItems.map(item => (
-            <Link key={item.path} to={item.path} style={{ textDecoration: 'none' }}>
-              <div className="nav-item" style={{
-                padding: '6px 14px', borderRadius: '50px',
-                fontSize: '12px',
-                color: item.path === '/dashboard' ? '#fff' : 'rgba(255,255,255,0.6)',
-                background: item.path === '/dashboard' ? 'rgba(255,255,255,0.22)' : 'transparent',
-                whiteSpace: 'nowrap', cursor: 'pointer',
-                fontWeight: item.path === '/dashboard' ? 500 : 400
-              }}>
-                {item.label}
-              </div>
-            </Link>
-          ))}
-        </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginBottom: '14px' }}>
           {[
-            { label: 'This week', value: summary.expenses ? `Rs.${Math.abs(summary.expenses.total)}` : '0', sub: 'expenses' },
+            { label: 'This week', value: `Rs.${Math.abs(summary.expenses?.total || 0)}`, sub: 'expenses' },
             { label: 'Habits done', value: `${completedHabits.length}/${summary.habits.length}`, sub: 'today' },
             { label: 'Mood today', value: todayMood ? todayMood.mood : 'none', sub: 'latest log' }
           ].map((stat, i) => (
             <div key={i} style={{
-              background: 'rgba(255,255,255,0.12)',
+              background: 'rgba(255,255,255,0.06)',
               borderRadius: '12px', padding: '12px 10px',
-              border: '1px solid rgba(255,255,255,0.18)',
+              border: '1px solid rgba(255,255,255,0.1)',
               backdropFilter: 'blur(8px)'
             }}>
-              <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.6)', letterSpacing: '0.5px', textTransform: 'uppercase', marginBottom: '4px' }}>
+              <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.5)', letterSpacing: '0.5px', textTransform: 'uppercase', marginBottom: '4px' }}>
                 {stat.label}
               </div>
               <div style={{ fontFamily: 'Playfair Display, serif', fontSize: '18px', color: '#fff', fontWeight: 500 }}>
@@ -208,33 +218,78 @@ const Dashboard = () => {
 
         {nextMedicine && (
           <div style={{
-            background: 'rgba(255,255,255,0.12)', borderRadius: '12px',
-            padding: '12px 14px', marginBottom: '12px',
-            border: '1px solid rgba(255,255,255,0.18)',
+            background: 'rgba(255,255,255,0.06)', borderRadius: '12px',
+            padding: '12px 14px', marginBottom: '14px',
+            border: '1px solid rgba(255,255,255,0.1)',
             display: 'flex', alignItems: 'center', gap: '10px'
           }}>
-            <span style={{ fontSize: '20px' }}>+</span>
+            <span style={{ fontSize: '20px' }}>💊</span>
             <div>
               <div style={{ fontSize: '13px', color: '#fff', fontWeight: 500 }}>Next medicine</div>
-              <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.7)' }}>
+              <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)' }}>
                 {nextMedicine.name} — {nextMedicine.times?.[0] || 'check schedule'}
               </div>
             </div>
           </div>
         )}
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
-          {navItems.filter(n => n.path !== '/dashboard').map(item => (
-            <div key={item.path} className="feature-card" onClick={() => navigate(item.path)} style={{
-              background: 'rgba(255,255,255,0.11)',
-              borderRadius: '12px', padding: '16px',
-              border: '1px solid rgba(255,255,255,0.17)',
-              backdropFilter: 'blur(8px)',
-              cursor: 'pointer'
-            }}>
-              <div style={{ fontSize: '20px', marginBottom: '6px' }}>{item.icon}</div>
-              <div style={{ fontFamily: 'Playfair Display, serif', fontSize: '14px', color: '#fff', fontWeight: 500 }}>
+        <GooeyNav
+          items={navItems.map(item => ({
+            label: item.label,
+            href: '#',
+            onClick: () => navigate(item.href)
+          }))}
+          particleCount={12}
+          particleDistances={[80, 8]}
+          particleR={80}
+          animationTime={500}
+          colors={[1, 2, 3, 1, 2, 3, 1, 4]}
+          initialActiveIndex={0}
+        />
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(2, 1fr)',
+          gap: '10px'
+        }}>
+          {bentoItems.map((item, i) => (
+            <div
+              key={i}
+              className="dash-card"
+              onClick={() => navigate(item.path)}
+              style={{
+                background: item.color,
+                borderRadius: '14px',
+                padding: '16px',
+                border: '1px solid rgba(255,255,255,0.08)',
+                cursor: 'pointer',
+                position: 'relative',
+                overflow: 'hidden',
+                backdropFilter: 'blur(8px)'
+              }}
+            >
+              <div style={{
+                fontSize: '10px', fontWeight: 600,
+                letterSpacing: '1px', textTransform: 'uppercase',
+                color: 'rgba(255,255,255,0.4)',
+                marginBottom: '8px',
+                fontFamily: 'DM Sans, sans-serif'
+              }}>
                 {item.label}
+              </div>
+              <div style={{
+                fontFamily: 'Playfair Display, serif',
+                fontSize: '18px', color: '#fff', fontWeight: 500,
+                marginBottom: '4px'
+              }}>
+                {item.title}
+              </div>
+              <div style={{
+                fontSize: '12px',
+                color: 'rgba(255,255,255,0.55)',
+                fontFamily: 'DM Sans, sans-serif'
+              }}>
+                {item.description}
               </div>
             </div>
           ))}

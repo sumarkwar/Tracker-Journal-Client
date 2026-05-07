@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import API from '../api/axios';
 import toast from 'react-hot-toast';
 import Bubble from '../components/Bubble';
+import FloatingLines from '../components/FloatingLines';
 
 const bubbleColors = [
   ['rgba(225,245,238,0.5)', 'rgba(29,158,117,0.3)'],
@@ -12,23 +13,23 @@ const bubbleColors = [
 ];
 
 const styles = {
-  page: {
-    minHeight: '100vh',
-    background: 'linear-gradient(135deg, #04342C 0%, #0F6E56 40%, #1D9E75 70%, #534AB7 100%)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative',
-    overflow: 'hidden'
-  },
+ page: {
+  minHeight: '100vh',
+  background: '#020818',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  position: 'relative',
+  overflow: 'hidden'
+},
   card: {
-    background: 'rgba(255,255,255,0.13)',
+    background: 'rgba(0, 0, 0, 0.37)',
     backdropFilter: 'blur(18px)',
     WebkitBackdropFilter: 'blur(18px)',
     borderRadius: '20px',
     padding: '2rem 1.8rem',
     width: '340px',
-    border: '1px solid rgba(255,255,255,0.28)',
+    border: '1px solid rgba(255,255,255,0.2)',
     position: 'relative',
     zIndex: 2
   },
@@ -65,23 +66,25 @@ const styles = {
   label: {
     display: 'block',
     fontSize: '11px',
-    color: 'rgba(255,255,255,0.75)',
+    color: '#fff',
     marginBottom: '5px',
-    fontWeight: 500,
+    fontWeight: 700,
     letterSpacing: '0.6px',
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
+    textShadow: '0 1px 4px rgba(0,0,0,0.8)',
+    
   },
   input: {
     width: '100%',
     padding: '10px 14px',
-    border: '1px solid rgba(255,255,255,0.25)',
+    border: '1px solid rgba(255,255,255,0.4)',
     borderRadius: '10px',
     fontSize: '14px',
-    background: 'rgba(255,255,255,0.12)',
+    background: 'rgba(0,0,0,0.3)',
     color: '#fff',
     outline: 'none',
     fontFamily: 'DM Sans, sans-serif',
-    marginBottom: '12px'
+    marginBottom: '10px'
   },
   button: {
     width: '100%',
@@ -136,7 +139,20 @@ const Login = () => {
 
   return (
     <div style={styles.page}>
-      <Bubble colors={bubbleColors} />
+      <div style={{ position: 'absolute', inset: 0, zIndex: 1 }}>
+    <div style={{ position: 'absolute', inset: 0, zIndex: 1 }}>
+  <FloatingLines
+    enabledWaves={['top', 'middle', 'bottom']}
+    lineCount={[8, 12, 16]}
+    lineDistance={[8, 6, 4]}
+    bendRadius={5.0}
+    bendStrength={-0.5}
+    interactive={true}
+    parallax={true}
+    linesGradient={['#185FA5', '#378ADD', '#5DCAA5', '#AFA9EC']}
+  />
+</div>
+</div>
       <div style={styles.card}>
         <div style={styles.title}>Welcome back</div>
         <div style={styles.subtitle}>Sign in to continue</div>

@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import API from '../api/axios';
 import toast from 'react-hot-toast';
 import Bubble from '../components/Bubble';
+import ThreadBackground from '../components/ThreadBackground';
 
 const bubbleColors = [
   ['rgba(238,237,254,0.35)', 'rgba(83,74,183,0.3)'],
@@ -110,9 +111,11 @@ const Profile = () => {
   };
 
   return (
-    <div style={styles.page}>
-      <Bubble colors={bubbleColors} />
-      <div style={{ position: 'relative', zIndex: 2 }}>
+    <ThreadBackground
+  gradient="linear-gradient(135deg, #26215C 0%, #534AB7 50%, #993556 100%)"
+  lineColors={['#5DCAA5', '#534AB7', '#AFA9EC', '#06B6D4']}
+>
+  <div style={{ padding: '16px' }}>
 
         <div style={styles.topBar}>
           <button onClick={() => navigate('/dashboard')} style={{
@@ -211,7 +214,7 @@ const Profile = () => {
         )}
 
       </div>
-    </div>
+    </ThreadBackground>
   );
 };
 

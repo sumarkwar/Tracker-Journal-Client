@@ -4,6 +4,8 @@ import { useAuth } from '../context/AuthContext';
 import API from '../api/axios';
 import toast from 'react-hot-toast';
 import Bubble from '../components/Bubble';
+import StarBorder from '../components/StarBorder';
+import FloatingLines from '../components/FloatingLines';
 
 const bubbleColors = [
   ['rgba(251,234,240,0.6)', 'rgba(212,83,126,0.4)'],
@@ -15,7 +17,7 @@ const bubbleColors = [
 const styles = {
   page: {
     minHeight: '100vh',
-    background: 'linear-gradient(135deg, #4B1528 0%, #993556 25%, #D4537E 55%, #AFA9EC 80%, #534AB7 100%)',
+    background: '#000000',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -23,7 +25,7 @@ const styles = {
     overflow: 'hidden'
   },
   card: {
-    background: 'rgba(255,255,255,0.13)',
+    background: 'rgba(0, 0, 0, 0.13)',
     backdropFilter: 'blur(18px)',
     WebkitBackdropFilter: 'blur(18px)',
     borderRadius: '20px',
@@ -52,7 +54,7 @@ const styles = {
   label: {
     display: 'block',
     fontSize: '11px',
-    color: 'rgba(255,255,255,0.75)',
+    color: 'rgba(255, 255, 255, 0.98)',
     marginBottom: '5px',
     fontWeight: 500,
     letterSpacing: '0.6px',
@@ -61,10 +63,10 @@ const styles = {
   input: {
     width: '100%',
     padding: '10px 14px',
-    border: '1px solid rgba(255,255,255,0.25)',
+    border: '1px solid rgba(119, 81, 114, 0.66)',
     borderRadius: '10px',
     fontSize: '14px',
-    background: 'rgba(255,255,255,0.12)',
+    background: 'rgba(170, 47, 88, 0.33)',
     color: '#fff',
     outline: 'none',
     fontFamily: 'DM Sans, sans-serif',
@@ -125,7 +127,16 @@ const Register = () => {
 
   return (
     <div style={styles.page}>
-      <Bubble colors={bubbleColors} />
+      <FloatingLines
+          enabledWaves={['top', 'middle', 'bottom']}
+          lineCount={[8, 12, 16]}
+          lineDistance={[8, 6, 4]}
+          bendRadius={5.0}
+          bendStrength={-0.5}
+          interactive={true}
+          parallax={true}
+          linesGradient={['#e945f5', '#6f6f6f', '#AFA9EC', '#6a6a6a']}
+        />
       <div style={styles.card}>
         <div style={{ fontSize: '20px', marginBottom: '8px' }}>✨</div>
         <div style={styles.title}>Create account</div>
@@ -177,9 +188,20 @@ const Register = () => {
             required
           />
 
-          <button style={styles.button} type="submit" disabled={loading}>
-            {loading ? 'Creating account...' : 'Create account'}
-          </button>
+          <StarBorder
+  as="button"
+  type="submit"
+  disabled={loading}
+  color="#F4C0D1"
+  speed="4s"
+  thickness={1}
+  style={{
+    ...styles.button,
+    width: '100%'
+  }}
+>
+  {loading ? 'Creating account...' : 'Create account'}
+</StarBorder>
         </form>
         <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.65)', textAlign: 'center', marginTop: '8px' }}>
   By registering you agree to our{' '}
