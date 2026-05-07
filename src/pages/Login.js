@@ -149,7 +149,7 @@ const Login = () => {
     bendStrength={-0.5}
     interactive={true}
     parallax={true}
-    linesGradient={['#185FA5', '#378ADD', '#5DCAA5', '#AFA9EC']}
+    linesGradient={['#10e49e','#20a076','#6a6a6a']}
   />
 </div>
 </div>
