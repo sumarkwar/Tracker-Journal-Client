@@ -123,19 +123,23 @@ const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const { data } = await API.post('/auth/login', { identifier, password });
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  try {
+    const { data } = await API.post('/auth/login', { identifier, password });
+    if (data && data.user && data.token) {
       login(data.user, data.token);
       toast.success('Welcome back!');
       navigate('/dashboard');
-    } catch (err) {
-      toast.error(err.response?.data?.message || 'Login failed');
+    } else {
+      toast.error('Login failed — please try again');
     }
-    setLoading(false);
-  };
+  } catch (err) {
+    toast.error(err.response?.data?.message || 'Login failed');
+  }
+  setLoading(false);
+};
 
   return (
     <div style={styles.page}>
