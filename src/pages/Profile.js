@@ -69,13 +69,17 @@ const Profile = () => {
   }, []);
 
   const fetchProfile = async () => {
-    try {
-      const { data } = await API.get('/user/profile');
-      setProfile({ name: data.name, phone: data.phone, email: data.email || '' });
-    } catch (err) {
-      toast.error('Failed to load profile');
-    }
-  };
+  try {
+    const { data } = await API.get('/user/profile');
+    setProfile({ 
+      name: data.name, 
+      phone: data.phone ? data.phone.replace('+91', '') : '',
+      email: data.email || '' 
+    });
+  } catch (err) {
+    toast.error('Failed to load profile');
+  }
+};
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();

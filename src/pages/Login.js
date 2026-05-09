@@ -172,6 +172,11 @@ const Login = () => {
             onChange={(e) => setIdentifier(e.target.value)}
             required
           />
+          {tab === 'phone' && (
+  <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.45)', marginTop: '-8px', marginBottom: '10px' }}>
+    Enter without country code — +91 added automatically
+  </div>
+)}
 
           <label style={styles.label}>Password</label>
           <input
